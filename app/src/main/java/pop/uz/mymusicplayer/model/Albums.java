@@ -5,25 +5,19 @@ public class Albums {
     public final String albumName;
     public final long artistId;
     public final String artistName;
-    public final int numSongs;
-    public final int minyear;
 
     public Albums() {
         id = -1;
         albumName = "";
         artistId = -1;
         artistName = "";
-        numSongs = -1;
-        minyear = -1;
     }
 
-    public Albums(long id, String albumName, long artistId, String artistName, int numSongs, int minyear) {
+    public Albums(long id, String albumName, long artistId, String artistName) {
         this.id = id;
         this.albumName = albumName;
         this.artistId = artistId;
         this.artistName = artistName;
-        this.numSongs = numSongs;
-        this.minyear = minyear;
     }
 
     public long getId() {
@@ -40,13 +34,5 @@ public class Albums {
 
     public String getArtistName() {
         return artistName;
-    }
-
-    public int getNumSongs() {
-        return numSongs;
-    }
-
-    public int getMinyear() {
-        return minyear;
     }
 }

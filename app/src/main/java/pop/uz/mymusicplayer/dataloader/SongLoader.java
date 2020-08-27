@@ -23,8 +23,7 @@ public class SongLoader {
                 "album", //3
                 "artist_id", //4
                 "artist", //5
-                "duration", //6
-                "track" //7
+                "duration"//6
         };
         String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
         Cursor cursor = context.getContentResolver().query(uri, project, null, null, sortOrder);
@@ -32,7 +31,7 @@ public class SongLoader {
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 musicList.add(new Music(cursor.getLong(0), cursor.getString(1), cursor.getLong(2), cursor.getString(3),
-                        cursor.getLong(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7)));
+                        cursor.getLong(4), cursor.getString(5), cursor.getInt(6)));
 
             } while (cursor.moveToNext());
 

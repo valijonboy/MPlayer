@@ -16,4 +16,5 @@ tools:context=".fragments.SongFragment">
 
 </androidx.recyclerview.widget.RecyclerView>
 
+
 </FrameLayout>

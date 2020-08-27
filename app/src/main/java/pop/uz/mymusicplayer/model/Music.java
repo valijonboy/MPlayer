@@ -8,7 +8,6 @@ public class Music {
     public final String artistName;
     public final String albumName;
     public  final int duration;
-    public final int trackNumber;
 
     public Music(){
         id = -1;
@@ -18,12 +17,11 @@ public class Music {
         artistId = -1;
         artistName = "";
         duration = -1;
-        trackNumber = -1;
     }
 
 
     public Music(long id, String title, long albumId, String albumName, long artistId, String artistName,
-                  int duration, int trackNumber) {
+                  int duration) {
         this.title = title;
         this.artistName = artistName;
         this.id = id;
@@ -31,15 +29,6 @@ public class Music {
         this.artistId = artistId;
         this.albumName = albumName;
         this.duration = duration;
-        this.trackNumber = trackNumber;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getDuration() {
-        return duration;
     }
 
     public long getId() {
@@ -54,15 +43,19 @@ public class Music {
         return artistId;
     }
 
-    public String getAlbumName() {
-        return albumName;
-    }
-
-    public int getTrackNumber() {
-        return trackNumber;
+    public String getTitle() {
+        return title;
     }
 
     public String getArtistName() {
         return artistName;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 }

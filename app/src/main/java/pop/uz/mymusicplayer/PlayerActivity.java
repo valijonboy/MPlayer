@@ -1,65 +1,80 @@
 package pop.uz.mymusicplayer;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.listener.single.PermissionListener;
+import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import pop.uz.mymusicplayer.adapters.MusicAdapter;
+import pop.uz.mymusicplayer.databinding.ActivityPlayingNowBinding;
 import pop.uz.mymusicplayer.model.Music;
 
-public class PlayerActivity extends AppCompatActivity {
+import static pop.uz.mymusicplayer.music.MusicService.mPlayList;
 
-    Button play_list, pause, next, previous;
+public class PlayerActivity extends AppCompatActivity implements View.OnClickListener, MusicAdapter.OnClickMusicListener {
+
     SeekBar songSeekBar;
-    TextView currentDuration, allDuration, musicName;
-    private ArrayList<Music> items = new ArrayList<>();
-    private RecyclerView musicList;
+    TextView currentDuration, allDuration, musicName, authorName;
+    private List<Music> musicList = new ArrayList<>();
     Thread updateSeekBar;
     static MediaPlayer mediaPlayer;
-    String sName;
+    Music music = new Music();
+    private ActivityPlayingNowBinding binding;
+    private long currentSongLength;
 
-    int position;
+    private int mPlayPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_list);
-        play_list = findViewById(R.id.play_list);
-        pause = findViewById(R.id.pause);
-        next = findViewById(R.id.next);
-        previous = findViewById(R.id.previous);
+        binding = ActivityPlayingNowBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+
+            }
+        });
+
 
         songSeekBar = findViewById(R.id.seekBar);
         currentDuration = findViewById(R.id.current_duration);
         allDuration = findViewById(R.id.all_duration);
         musicName = findViewById(R.id.music_name);
 
-        updateSeekBar = new Thread(){
+        binding.playList.setOnClickListener(this);
+        binding.pause.setOnClickListener(this);
+        binding.next.setOnClickListener(this);
+        binding.previous.setOnClickListener(this);
+
+
+        updateSeekBar = new Thread() {
             @Override
             public void run() {
+                mediaPlayer = new MediaPlayer();
                 int totalDuration = mediaPlayer.getDuration();
                 int currentPosition = 0;
 
-                while (currentPosition < totalDuration){
+                while (currentPosition < totalDuration) {
                     try {
                         sleep(500);
                         currentPosition = mediaPlayer.getCurrentPosition();
                         songSeekBar.setProgress(currentPosition);
-                    }catch (InterruptedException e){
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
@@ -67,83 +82,56 @@ public class PlayerActivity extends AppCompatActivity {
             }
         };
 
-        if (mediaPlayer != null){
-            mediaPlayer.stop();
-            mediaPlayer.release();
-        }
+        binding.musicName.setText(music.title);
+    }
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-
-        assert bundle != null;
-        items = (ArrayList) bundle.getParcelableArrayList("songs");
-
-        sName = items.get(position).getTitle().toString();
-
-        String songName = intent.getStringExtra("songname");
-
-        musicName.setText(songName);
-        musicName.setSelected(true);
-
-        position = bundle.getInt("pos", 0);
-
-        final Uri uri = Uri.parse(items.get(position).toString());
-
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-        mediaPlayer.start();
-        songSeekBar.setMax(mediaPlayer.getDuration());
-
-        songSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-                mediaPlayer.seekTo(seekBar.getProgress());
-            }
-        });
-
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                songSeekBar.setMax(mediaPlayer.getDuration());
-
-                if (mediaPlayer.isPlaying()){
-                    pause.setBackgroundResource(R.drawable.icon_play);
+    @Override
+    public void onClick(View v) {
+        mediaPlayer = new MediaPlayer();
+        switch (v.getId()) {
+            case R.id.pause:
+                if (mediaPlayer.isPlaying()) {
+                    binding.pause.setBackgroundResource(R.drawable.icon_pause);
                     mediaPlayer.pause();
-                }
-                else {
-                    pause.setBackgroundResource(R.drawable.icon_pause);
+                } else {
+                    binding.pause.setBackgroundResource(R.drawable.icon_play);
                     mediaPlayer.start();
                 }
-            }
-        });
-
-
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.next:
+                if (mPlayPosition <= mPlayList.size() && mPlayPosition >= 0) {
+                    mPlayPosition++;
+                }
                 mediaPlayer.stop();
-                mediaPlayer.release();
-                position = ((position + 1)%items.size());
-
-                Uri uri = Uri.parse(items.get(position).toString());
-
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-                sName = items.get(position).getTitle();
-                musicName.setText(sName);
-
                 mediaPlayer.start();
-            }
-        });
+                break;
+            case R.id.play_list:
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+
+        }
+    }
+
+    @Override
+    public void onMusicClick(Music music, int position) {
+
+        prepareMusic(music);
+    }
+
+    private void prepareMusic(Music music){
+
+        currentSongLength = music.getDuration();
+        binding.musicName.setText(music.title);
+        Uri uri = Uri.parse("_id");
+        mediaPlayer.reset();
+
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.start();
     }
 
 }

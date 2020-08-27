@@ -1,37 +1,39 @@
 package pop.uz.mymusicplayer;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pop.uz.mymusicplayer.adapters.MusicAdapter;
 import pop.uz.mymusicplayer.databinding.ActivityMain1Binding;
-import pop.uz.mymusicplayer.fragments.AlbumFragment;
-import pop.uz.mymusicplayer.fragments.ArtistFragment;
-import pop.uz.mymusicplayer.fragments.SongFragment;
-import pop.uz.mymusicplayer.fragments.SoundCloud;
+import pop.uz.mymusicplayer.fragments.FragmentMain;
 import pop.uz.mymusicplayer.model.Music;
+import pop.uz.mymusicplayer.music.PlayerServices;
 
-public class MainActivity extends AppCompatActivity  {
+import static pop.uz.mymusicplayer.music.PlayerServices.mRemot;
+
+public class MainActivity extends AppCompatActivity implements ServiceConnection {
 
     private static final int MY_PERMISSION = 1;
     private ActivityMain1Binding binding;
@@ -39,8 +41,8 @@ public class MainActivity extends AppCompatActivity  {
     private ArrayList<Music> mMusicList = new ArrayList<>();
     Context context;
     MediaPlayer mediaPlayer = new MediaPlayer();
-
-
+    private SlidingUpPanelLayout sliding;
+    private PlayerServices.ServiceToken token;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -51,23 +53,31 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(view);
 
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED){
+                PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{
                     Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSION);
             return;
-        }else {
+        } else {
             UiInitialization();
         }
 
-       UiInitialization();
+        UiInitialization();
 
+        binding.btnToPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case MY_PERMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     UiInitialization();
                 }
             default:
@@ -76,53 +86,38 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    private void UiInitialization(){
+    private void UiInitialization() {
+
+        token = PlayerServices.bindToService(this, this);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
-        setSupportActionBar(binding.toolbar);
-        setUpViewPager(binding.viewPager);
-        binding.tablayout.setupWithViewPager(binding.viewPager);
+       // sliding = findViewById(R.id.sliding_layout);
+
+        Fragment fragment = new FragmentMain();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_container, fragment);
+        transaction.commit();
+
     }
 
-  private void setUpViewPager(ViewPager viewPager){
-        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
-        adapter.AddFragments(new SongFragment(), "Songs");
-        adapter.AddFragments(new AlbumFragment(), "Albums");
-        adapter.AddFragments(new ArtistFragment(), "Artists");
-        adapter.AddFragments(new SoundCloud(), "Sound Cloud");
-        viewPager.setAdapter(adapter);
-  }
 
-    private class FragmentAdapter extends FragmentPagerAdapter {
-
-        private List<Fragment> fragmentList = new ArrayList<>();
-        private List<String> titleList = new ArrayList<>();
-
-        public FragmentAdapter(@NonNull FragmentManager fragmentManager) {
-            super(fragmentManager);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (token != null){
+            PlayerServices.unBindToService(token);
+            token = null;
         }
+    }
 
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        mRemot = MyMusicAIDL.Stub.asInterface(service);
+    }
 
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
-        }
-
-        public void AddFragments(Fragment fragment, String title){
-            fragmentList.add(fragment);
-            titleList.add(title);
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titleList.get(position);
-        }
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        mRemot = null;
     }
 }
 

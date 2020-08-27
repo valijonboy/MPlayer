@@ -18,7 +18,7 @@ public class AlbumLoader {
         if (cursor != null && cursor.moveToFirst()){
             do {
                 list.add(new Albums(cursor.getLong(0), cursor.getString(1), cursor.getLong(2),
-                        cursor.getString(3), cursor.getInt(4), cursor.getInt(5)));
+                        cursor.getString(3)));
             }while (cursor.moveToNext());
             if (cursor != null){
                 cursor.close();
@@ -35,7 +35,7 @@ public class AlbumLoader {
         Albums albums  = new Albums();
         if (cursor.moveToFirst() && cursor != null) {
                 albums = new Albums(cursor.getLong(0), cursor.getString(1), cursor.getLong(2),
-                        cursor.getString(3), cursor.getInt(4), cursor.getInt(5));
+                        cursor.getString(3));
         }
         if (cursor != null) {
             cursor.close();
@@ -48,16 +48,14 @@ public class AlbumLoader {
     }
 
     public Cursor makeCursor(Context context, String selection, String[] selectionArg){
-        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Uri uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
         String[] projection = new String[]{
                 "_id",
                 "album",
                 "artist_id",
-                "artist",
-                "numsongs",
-                "minyear"
+                "artist"
         };
-        String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
+        String sortOrder = MediaStore.Audio.Albums.DEFAULT_SORT_ORDER;
         Cursor cursor = context.getContentResolver().query(uri, projection, selection, selectionArg, sortOrder);
         return cursor;
     }
