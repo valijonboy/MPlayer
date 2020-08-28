@@ -20,7 +20,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 import pop.uz.mymusicplayer.R;
-import pop.uz.mymusicplayer.fragments.AlbumDetailsFragment;
 import pop.uz.mymusicplayer.fragments.ArtistDetailsFragment;
 import pop.uz.mymusicplayer.model.Artist;
 
@@ -49,7 +48,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistHold
         if (artist != null){
             holder.artistName.setText(artist.artistName);
             ImageLoader.getInstance().displayImage(getImage(artistList.get(position).id).toString(), holder.artistImage,
-                    new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.ic_music)
+                    new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.icon_music)
                             .resetViewBeforeLoading(true).build());
         }
     }

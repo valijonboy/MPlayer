@@ -12,30 +12,30 @@ import pop.uz.mymusicplayer.model.Albums;
 
 public class AlbumLoader {
 
-    public List<Albums> getAlbums(Context context, Cursor cursor){
+    public List<Albums> getAlbums(Context context, Cursor cursor) {
         List<Albums> list = new ArrayList<>();
 
-        if (cursor != null && cursor.moveToFirst()){
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 list.add(new Albums(cursor.getLong(0), cursor.getString(1), cursor.getLong(2),
                         cursor.getString(3)));
-            }while (cursor.moveToNext());
-            if (cursor != null){
+            } while (cursor.moveToNext());
+            if (cursor != null) {
                 cursor.close();
             }
         }
         return list;
     }
 
-    public Albums getAlbum(Context context, long id){
+    public Albums getAlbum(Context context, long id) {
         return album(makeCursor(context, "_id=?", new String[]{String.valueOf(id)}));
     }
 
     private Albums album(Cursor cursor) {
-        Albums albums  = new Albums();
+        Albums albums = new Albums();
         if (cursor.moveToFirst() && cursor != null) {
-                albums = new Albums(cursor.getLong(0), cursor.getString(1), cursor.getLong(2),
-                        cursor.getString(3));
+            albums = new Albums(cursor.getLong(0), cursor.getString(1), cursor.getLong(2),
+                    cursor.getString(3));
         }
         if (cursor != null) {
             cursor.close();
@@ -43,11 +43,11 @@ public class AlbumLoader {
         return albums;
     }
 
-    public List<Albums> albumsList(Context context){
+    public List<Albums> albumsList(Context context) {
         return getAlbums(context, makeCursor(context, null, null));
     }
 
-    public Cursor makeCursor(Context context, String selection, String[] selectionArg){
+    public Cursor makeCursor(Context context, String selection, String[] selectionArg) {
         Uri uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
         String[] projection = new String[]{
                 "_id",

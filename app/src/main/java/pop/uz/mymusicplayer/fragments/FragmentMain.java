@@ -25,9 +25,9 @@ import pop.uz.mymusicplayer.R;
 
 public class FragmentMain extends Fragment {
 
-private Toolbar toolbar;
-private TabLayout tabLayout;
-private ViewPager viewPager;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +35,7 @@ private ViewPager viewPager;
         View rootView = inflater.inflate(R.layout.fragment_main2, container, false);
 
         toolbar = rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         tabLayout = rootView.findViewById(R.id.tablayout);
         viewPager = rootView.findViewById(R.id.view_pager);
 
@@ -45,7 +45,7 @@ private ViewPager viewPager;
         return rootView;
     }
 
-    private void setUpViewPager(ViewPager viewPager){
+    private void setUpViewPager(ViewPager viewPager) {
         FragmentAdapter adapter = new FragmentAdapter(getActivity().getSupportFragmentManager());
         adapter.AddFragments(new SongFragment(), "Songs");
         adapter.AddFragments(new AlbumFragment(), "Albums");
@@ -75,7 +75,7 @@ private ViewPager viewPager;
             return fragmentList.size();
         }
 
-        public void AddFragments(Fragment fragment, String title){
+        public void AddFragments(Fragment fragment, String title) {
             fragmentList.add(fragment);
             titleList.add(title);
         }

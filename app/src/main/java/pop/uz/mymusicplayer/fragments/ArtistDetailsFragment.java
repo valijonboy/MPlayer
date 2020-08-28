@@ -62,17 +62,17 @@ public class ArtistDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      View rootView = inflater.inflate(R.layout.fragment_artist_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_artist_details, container, false);
 
-      artistArtName = rootView.findViewById(R.id.artist_art_name);
-      artistADetails = rootView.findViewById(R.id.artistDetails);
-      bigArtist = rootView.findViewById(R.id.bigartist);
-      artistArtImg = rootView.findViewById(R.id.artist_art_img);
-      recyclerView = rootView.findViewById(R.id.recycler_artist_music);
-      toolbarLayout = rootView.findViewById(R.id.artist_collapsinglayout);
-      recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        artistArtName = rootView.findViewById(R.id.artist_art_name);
+        artistADetails = rootView.findViewById(R.id.artistDetails);
+        bigArtist = rootView.findViewById(R.id.bigartist);
+        artistArtImg = rootView.findViewById(R.id.artist_art_img);
+        recyclerView = rootView.findViewById(R.id.recycler_artist_music);
+        toolbarLayout = rootView.findViewById(R.id.artist_collapsinglayout);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-      artist = new ArtistLoader().getArtist(getActivity(), artist_id);
+        artist = new ArtistLoader().getArtist(getActivity(), artist_id);
         setArtistDetails();
         setUpArtistList();
         return rootView;
@@ -91,11 +91,11 @@ public class ArtistDetailsFragment extends Fragment {
         artistArtName.setText(artist.artistName);
         artistADetails.setText(artist.artistName);
         ImageLoader.getInstance().displayImage(getImage(artist.id).toString(), bigArtist,
-                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.ic_music)
+                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.icon_music)
                         .resetViewBeforeLoading(true).build());
 
         ImageLoader.getInstance().displayImage(getImage(artist.id).toString(), artistArtImg,
-                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.ic_music)
+                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.icon_music)
                         .resetViewBeforeLoading(true).build());
     }
 }

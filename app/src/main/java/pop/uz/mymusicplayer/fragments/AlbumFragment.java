@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import pop.uz.mymusicplayer.R;
 import pop.uz.mymusicplayer.adapters.AlbumAdapter;
 import pop.uz.mymusicplayer.adapters.GridSpacingItemDecoration;
-import pop.uz.mymusicplayer.adapters.MusicAdapter;
 import pop.uz.mymusicplayer.dataloader.AlbumLoader;
-import pop.uz.mymusicplayer.dataloader.SongLoader;
 
 public class AlbumFragment extends Fragment {
 

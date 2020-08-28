@@ -15,15 +15,15 @@ import static pop.uz.mymusicplayer.Constants.NOTIFICATION_ID;
 
 public class MediaStyleHelper {
 
-    public static PendingIntent getActionIntent(Context context, String action){
+    public static PendingIntent getActionIntent(Context context, String action) {
         ComponentName componentName = new ComponentName(context, MusicService.class);
         Intent intent = new Intent(action);
         intent.setComponent(componentName);
         return PendingIntent.getService(context, 0, intent, 0);
     }
 
-    public static NotificationCompat.Builder from(Context context, MediaSessionCompat sessionCompat){
-        MediaControllerCompat controllerCompat  = sessionCompat.getController();
+    public static NotificationCompat.Builder from(Context context, MediaSessionCompat sessionCompat) {
+        MediaControllerCompat controllerCompat = sessionCompat.getController();
         MediaMetadataCompat metadataCompat = controllerCompat.getMetadata();
         MediaDescriptionCompat mediaDescriptionCompat = metadataCompat.getDescription();
 

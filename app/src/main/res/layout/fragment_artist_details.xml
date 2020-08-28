@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="pin"
-                app:srcCompat="@drawable/ic_music" />
+                app:srcCompat="@drawable/icon_music" />
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -45,8 +45,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,8 +59,8 @@
                     android:id="@+id/artist_art_img"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
-                    app:srcCompat="@drawable/ic_music"
-                    android:background="#22000000"/>
+                    android:background="#22000000"
+                    app:srcCompat="@drawable/icon_music" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,18 +68,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/artist_art_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Artist Name"
-                        android:textSize="18sp"
-                        android:id="@+id/artist_art_name"/>
+                        android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/artistDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Artist Name"
-                        android:textSize="18sp"
-                        android:id="@+id/artistDetails"/>
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -94,10 +92,10 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/artist_floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/artist_floating_button"
         app:layout_anchor="@id/artist_collapsinglayout"
-        app:layout_anchorGravity="bottom|end|right"/>
+        app:layout_anchorGravity="bottom|end|right" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -51,7 +51,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumHolder>
             holder.albumName.setText(albums.albumName);
             holder.artistName.setText(albums.artistName);
             ImageLoader.getInstance().displayImage(getImage(albumsList.get(position).id).toString(), holder.imageAlbum,
-                    new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.ic_music)
+                    new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.icon_music)
                             .resetViewBeforeLoading(true).build());
         }
     }

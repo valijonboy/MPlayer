@@ -3,7 +3,6 @@ package pop.uz.mymusicplayer.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.media.session.PlaybackState;
 
 import androidx.annotation.Nullable;
 
@@ -15,12 +14,13 @@ public class AudioDb extends SQLiteOpenHelper {
     public static AudioDb instance = null;
     private final Context context;
 
-    public static AudioDb getInstance(Context context){
-        if (instance == null){
+    public static AudioDb getInstance(Context context) {
+        if (instance == null) {
             instance = new AudioDb(context);
         }
         return instance;
     }
+
     public AudioDb(@Nullable Context context) {
         super(context, DATABASENAME, null, VERSION);
         this.context = context;
@@ -28,7 +28,7 @@ public class AudioDb extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-       MusicPlayStatus.getInstance(context).onCreate(db);
+        MusicPlayStatus.getInstance(context).onCreate(db);
     }
 
     @Override

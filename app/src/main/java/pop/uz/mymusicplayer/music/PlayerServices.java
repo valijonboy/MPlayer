@@ -24,34 +24,33 @@ public class PlayerServices {
         mHashMap = new WeakHashMap<>();
     }
 
-    public static final ServiceToken bindToService(Context context, ServiceConnection serviceConnection){
-        Activity realActivity = ((Activity)context).getParent();
-        if (realActivity == null){
+    public static ServiceToken bindToService(Context context, ServiceConnection serviceConnection) {
+        Activity realActivity = ((Activity) context).getParent();
+        if (realActivity == null) {
             realActivity = (Activity) context;
         }
         ContextWrapper mWrapper = new ContextWrapper(realActivity);
         mWrapper.startService(new Intent(mWrapper, MusicService.class));
         ServiceBinder binder = new ServiceBinder(serviceConnection, mWrapper.getApplicationContext());
 
-        if (mWrapper.bindService(new Intent().setClass(mWrapper, MusicService.class), binder, 0)){
+        if (mWrapper.bindService(new Intent().setClass(mWrapper, MusicService.class), binder, 0)) {
             mHashMap.put(mWrapper, binder);
             return new ServiceToken(mWrapper);
         }
         return null;
     }
 
-    public static void unBindToService(ServiceToken token){
-        if (token ==  null){
+    public static void unBindToService(ServiceToken token) {
+        if (token == null) {
             return;
         }
         ContextWrapper mWrapper = token.contextWrapper;
         ServiceBinder binder = mHashMap.remove(mWrapper);
-        if (binder == null){
+        if (binder == null) {
             return;
         }
         mWrapper.unbindService(binder);
-        if (mHashMap.isEmpty()){
-            binder = null;
+        if (mHashMap.isEmpty()) {
         }
     }
 
@@ -59,21 +58,21 @@ public class PlayerServices {
 
     public static void playAll(long[] list, int position, long sourceId, MPlayerUtils.IdType type) throws RemoteException {
 
-        if (list.length == 0 && list == null && mRemot == null){
+        if (list.length == 0 && list == null && mRemot == null) {
             return;
         }
 
-        long audioId  = getAudioId();
+        long audioId = getAudioId();
         int currentPosition = getCurrentPosition();
 
-        if (position == currentPosition && audioId == list[position] && position != -1){
-            long[]idList = getSaveIdList();
-            if (Arrays.equals(idList, list)){
+        if (position == currentPosition && audioId == list[position] && position != -1) {
+            long[] idList = getSaveIdList();
+            if (Arrays.equals(idList, list)) {
                 play();
                 return;
             }
         }
-        if (position < 0){
+        if (position < 0) {
             position = 0;
         }
         mRemot.open(list, position, sourceId, type.mId);
@@ -81,29 +80,28 @@ public class PlayerServices {
     }
 
     private static long[] getSaveIdList() throws RemoteException {
-        if (mRemot != null){
+        if (mRemot != null) {
             mRemot.getSavedIdList();
         }
         return emptyList;
     }
 
     private static void play() throws RemoteException {
-        if (mRemot != null){
+        if (mRemot != null) {
             mRemot.play();
         }
     }
 
 
-
     private static int getCurrentPosition() throws RemoteException {
-        if (mRemot != null){
+        if (mRemot != null) {
             return mRemot.getCurrentPosition();
         }
         return -1;
     }
 
     private static long getAudioId() throws RemoteException {
-        if (mRemot != null){
+        if (mRemot != null) {
             return mRemot.getAudioId();
         }
         return -1;
@@ -111,14 +109,15 @@ public class PlayerServices {
     //..........All method.............end...............
 
 
-    public static class ServiceToken{
+    public static class ServiceToken {
         private ContextWrapper contextWrapper;
 
         public ServiceToken(ContextWrapper contextWrapper) {
             this.contextWrapper = contextWrapper;
         }
     }
-    public static final class ServiceBinder implements ServiceConnection{
+
+    public static final class ServiceBinder implements ServiceConnection {
 
         private ServiceConnection mService;
         private Context context;
@@ -131,7 +130,7 @@ public class PlayerServices {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mRemot = MyMusicAIDL.Stub.asInterface(service);
-            if (mService != null){
+            if (mService != null) {
                 mService.onServiceConnected(name, service);
             }
         }

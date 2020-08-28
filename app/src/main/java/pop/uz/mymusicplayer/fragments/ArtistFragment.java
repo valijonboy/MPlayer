@@ -36,11 +36,11 @@ public class ArtistFragment extends Fragment {
         return view;
     }
 
-    public class LoadData extends AsyncTask<String , Void, String >{
+    public class LoadData extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {
-            if (getActivity() != null){
+            if (getActivity() != null) {
                 adapter = new ArtistAdapter(getActivity(), new ArtistLoader().artistList(getActivity()));
             }
             return "Executed";
@@ -49,8 +49,8 @@ public class ArtistFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             recyclerView.setAdapter(adapter);
-            if (getActivity() != null){
-                recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount,spacing, includeEdge));
+            if (getActivity() != null) {
+                recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
             }
         }
 

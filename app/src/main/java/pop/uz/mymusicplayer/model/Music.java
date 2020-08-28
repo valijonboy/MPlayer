@@ -7,9 +7,9 @@ public class Music {
     public final String title;
     public final String artistName;
     public final String albumName;
-    public  final int duration;
+    public final int duration;
 
-    public Music(){
+    public Music() {
         id = -1;
         title = "";
         albumId = -1;
@@ -19,9 +19,8 @@ public class Music {
         duration = -1;
     }
 
-
     public Music(long id, String title, long albumId, String albumName, long artistId, String artistName,
-                  int duration) {
+                 int duration) {
         this.title = title;
         this.artistName = artistName;
         this.id = id;

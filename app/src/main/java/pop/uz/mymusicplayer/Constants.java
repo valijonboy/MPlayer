@@ -16,9 +16,9 @@ public class Constants {
     public static final String NEXT_ACTION = "pop.uz.mymusicplayer.ACTION_NEXT";
     public static final String PREVIOUS_ACTION = "pop.uz.mymusicplayer.ACTION_PREVIOUS";
 
-    public static final int NOTIFICATION_MODE_NON  = 0;
-    public static final int  NOTIFICATION_MODE_FOREGROUND  = 1;
-    public static final int  NOTIFICATION_MODE_BACKGROUND = 2;
-    public static final String  NOTIFICATION_ID = "MPlayer";
+    public static final int NOTIFICATION_MODE_NON = 0;
+    public static final int NOTIFICATION_MODE_FOREGROUND = 1;
+    public static final int NOTIFICATION_MODE_BACKGROUND = 2;
+    public static final String NOTIFICATION_ID = "MPlayer";
 
 }

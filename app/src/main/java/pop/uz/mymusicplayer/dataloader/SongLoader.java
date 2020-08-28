@@ -12,7 +12,7 @@ import pop.uz.mymusicplayer.model.Music;
 
 public class SongLoader {
 
-   public List<Music> getAllMusics(Context context) {
+    public List<Music> getAllMusics(Context context) {
         List<Music> musicList = new ArrayList<>();
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;

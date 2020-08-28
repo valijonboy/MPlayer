@@ -14,7 +14,7 @@ import java.util.List;
 import pop.uz.mymusicplayer.R;
 import pop.uz.mymusicplayer.model.Music;
 
-public class ArtistMusicAdapter extends RecyclerView.Adapter<ArtistMusicAdapter.ArtistMusicHolder>{
+public class ArtistMusicAdapter extends RecyclerView.Adapter<ArtistMusicAdapter.ArtistMusicHolder> {
 
     private Activity context;
     private List<Music> musicList;
@@ -34,7 +34,7 @@ public class ArtistMusicAdapter extends RecyclerView.Adapter<ArtistMusicAdapter.
     public void onBindViewHolder(@NonNull ArtistMusicAdapter.ArtistMusicHolder holder, int position) {
         Music music = musicList.get(position);
 
-        if (music !=  null){
+        if (music != null) {
             holder.artSongTitle.setText(music.title);
             holder.artTxtDetails.setText(music.artistName);
         }
@@ -42,11 +42,12 @@ public class ArtistMusicAdapter extends RecyclerView.Adapter<ArtistMusicAdapter.
 
     @Override
     public int getItemCount() {
-        return musicList != null? musicList.size():0;
+        return musicList != null ? musicList.size() : 0;
     }
 
     public static class ArtistMusicHolder extends RecyclerView.ViewHolder {
         private TextView artSongTitle, artTxtDetails;
+
         public ArtistMusicHolder(@NonNull View itemView) {
             super(itemView);
 

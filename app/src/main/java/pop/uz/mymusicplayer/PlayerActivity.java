@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import pop.uz.mymusicplayer.adapters.MusicAdapter;
 import pop.uz.mymusicplayer.databinding.ActivityPlayingNowBinding;
@@ -24,8 +22,7 @@ import static pop.uz.mymusicplayer.music.MusicService.mPlayList;
 public class PlayerActivity extends AppCompatActivity implements View.OnClickListener, MusicAdapter.OnClickMusicListener {
 
     SeekBar songSeekBar;
-    TextView currentDuration, allDuration, musicName, authorName;
-    private List<Music> musicList = new ArrayList<>();
+    TextView currentDuration, allDuration, musicName;
     Thread updateSeekBar;
     static MediaPlayer mediaPlayer;
     Music music = new Music();
@@ -46,7 +43,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-
+                mp.start();
             }
         });
 
@@ -119,7 +116,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
         prepareMusic(music);
     }
 
-    private void prepareMusic(Music music){
+    private void prepareMusic(Music music) {
 
         currentSongLength = music.getDuration();
         binding.musicName.setText(music.title);

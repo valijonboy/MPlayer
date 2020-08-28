@@ -100,8 +100,6 @@ public class MusicService extends Service {
         }
     };
 
-
-
     @Override
     public boolean onUnbind(Intent intent) {
         mMusicPlayStatus.saveSongInDb(mPlayList);
@@ -117,9 +115,9 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         mNotificationManager = NotificationManagerCompat.from(this);
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-           notificationChannel();
-       }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel();
+        }
 
         mMusicPlayStatus = MusicPlayStatus.getInstance(this);
         mPlayList = mMusicPlayStatus.getMusicToDb();
@@ -174,11 +172,12 @@ public class MusicService extends Service {
     ////All method///
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void notificationChannel(){
+    private void notificationChannel() {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel  = new NotificationChannel(NOTIFICATION_ID, "MPlayer", NotificationManager.IMPORTANCE_LOW);
+        NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID, "MPlayer", NotificationManager.IMPORTANCE_LOW);
         manager.createNotificationChannel(channel);
     }
+
     private void commandHandler(Intent intent) {
         String action = intent.getAction();
         if (TOGGLEPAUSE_ACTION.equals(action)) {
@@ -273,7 +272,7 @@ public class MusicService extends Service {
                 .setShowActionsInCompactView(0, 1, 2, 3)
                 .setMediaSession(mSession.getSessionToken()));
 
-        builder.setSmallIcon(R.drawable.ic_music)
+        builder.setSmallIcon(R.drawable.icon_music)
                 .setColor(getResources().getColor(R.color.colorPrimary));
 
         builder.addAction(R.drawable.icon_previous, getString(R.string.previous), getActionIntent(this, PREVIOUS_ACTION))
@@ -425,6 +424,7 @@ public class MusicService extends Service {
             mPlayer.stop();
         }
     }
+
     public void release() {
         stop();
         mPlayer.release();
@@ -451,7 +451,7 @@ public class MusicService extends Service {
         if (albumArt != null) {
             return albumArt;
         } else {
-            return BitmapFactory.decodeResource(getResources(), R.drawable.ic_music);
+            return BitmapFactory.decodeResource(getResources(), R.drawable.icon_music);
         }
     }
     ////All method..........

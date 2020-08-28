@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -21,14 +20,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.ArrayList;
-
-import pop.uz.mymusicplayer.adapters.MusicAdapter;
 import pop.uz.mymusicplayer.databinding.ActivityMain1Binding;
 import pop.uz.mymusicplayer.fragments.FragmentMain;
-import pop.uz.mymusicplayer.model.Music;
 import pop.uz.mymusicplayer.music.PlayerServices;
 
 import static pop.uz.mymusicplayer.music.PlayerServices.mRemot;
@@ -37,11 +31,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     private static final int MY_PERMISSION = 1;
     private ActivityMain1Binding binding;
-    private MusicAdapter mMusicAdapter;
-    private ArrayList<Music> mMusicList = new ArrayList<>();
     Context context;
-    MediaPlayer mediaPlayer = new MediaPlayer();
-    private SlidingUpPanelLayout sliding;
     private PlayerServices.ServiceToken token;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -51,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         binding = ActivityMain1Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        context = this;
 
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
@@ -66,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         binding.btnToPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
+                Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -90,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
         token = PlayerServices.bindToService(this, this);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
-       // sliding = findViewById(R.id.sliding_layout);
 
         Fragment fragment = new FragmentMain();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -100,11 +90,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (token != null){
+        if (token != null) {
             PlayerServices.unBindToService(token);
             token = null;
         }

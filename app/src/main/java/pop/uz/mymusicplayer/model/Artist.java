@@ -19,8 +19,5 @@ public class Artist {
         artistName = "";
         albumCount = -1;
         songCount = -1;
-
-
-
     }
 }

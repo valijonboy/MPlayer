@@ -12,10 +12,8 @@ import pop.uz.mymusicplayer.utils.MPlayerUtils;
 
 public class MusicPlayStatus {
 
-    // private static Object MusicPlayStatus;
-
     public static MusicPlayStatus instance = null;
-    private AudioDb audioDb = null;
+    private AudioDb audioDb;
     private Context context;
 
     public MusicPlayStatus(Context context) {
@@ -55,19 +53,19 @@ public class MusicPlayStatus {
         db.execSQL("DROP TABLE IF EXISTS " + SongColumn.NAME);
     }
 
-public void saveSongInDb(ArrayList<PlayBackTrack> list){
+    public void saveSongInDb(ArrayList<PlayBackTrack> list) {
         SQLiteDatabase sqLiteDatabase = audioDb.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
         try {
             sqLiteDatabase.delete(SongColumn.NAME, null, null);
             sqLiteDatabase.setTransactionSuccessful();
-        }finally {
+        } finally {
             sqLiteDatabase.endTransaction();
         }
 
         int PROCESS_NUM = 20;
         int position = 0;
-        while (position < list.size()){
+        while (position < list.size()) {
 
             sqLiteDatabase.beginTransaction();
             try {
@@ -79,36 +77,36 @@ public void saveSongInDb(ArrayList<PlayBackTrack> list){
                     values.put(SongColumn.SOURCE_TYPE, track.mIdTtype.mId);
                     values.put(SongColumn.SOURCE_POSITION, track.mCurrentPosition);
                     sqLiteDatabase.insert(SongColumn.NAME, null, values);
-            }
-          sqLiteDatabase.setTransactionSuccessful();
-            }finally {
+                }
+                sqLiteDatabase.setTransactionSuccessful();
+            } finally {
                 sqLiteDatabase.endTransaction();
                 position += PROCESS_NUM;
             }
         }
     }
 
-    public ArrayList<PlayBackTrack> getMusicToDb(){
+    public ArrayList<PlayBackTrack> getMusicToDb() {
         ArrayList<PlayBackTrack> result = new ArrayList<>();
         Cursor cursor = audioDb.getReadableDatabase().query(SongColumn.NAME, null, null,
                 null, null, null, null);
 
         try {
-            if (cursor != null && cursor.moveToFirst()){
+            if (cursor != null && cursor.moveToFirst()) {
                 result.ensureCapacity(cursor.getCount());
-            do {
-                result.add(new PlayBackTrack(cursor.getLong(0), cursor.getLong(1),
-                        MPlayerUtils.IdType.getInstance(cursor.getInt(2)), cursor.getInt(3)));
-            }while (cursor.moveToNext());
+                do {
+                    result.add(new PlayBackTrack(cursor.getLong(0), cursor.getLong(1),
+                            MPlayerUtils.IdType.getInstance(cursor.getInt(2)), cursor.getInt(3)));
+                } while (cursor.moveToNext());
             }
             return result;
-        }finally {
-            if (cursor != null){
+        } finally {
+            if (cursor != null) {
                 cursor.close();
-                cursor = null;
             }
         }
     }
+
     private static class SongColumn {
         public static String NAME = "playbacktrack";
         public static String TRACK_ID = "trackid";

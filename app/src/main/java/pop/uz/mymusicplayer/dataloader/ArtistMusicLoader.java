@@ -29,9 +29,9 @@ public class ArtistMusicLoader {
         Cursor cursor = context.getContentResolver().query(uri, project, selection, null, sortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
-         do {
+            do {
                 artistMusicList.add(new Music(cursor.getLong(0), cursor.getString(1), cursor.getLong(2), cursor.getString(3),
-                       artist_id, cursor.getString(4), cursor.getInt(5)));
+                        artist_id, cursor.getString(4), cursor.getInt(5)));
 
             } while (cursor.moveToNext());
 

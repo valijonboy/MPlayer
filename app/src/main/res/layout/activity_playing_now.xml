@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayerActivity"
+    android:background="@drawable/music_background"
     android:padding="10dp"
-    android:background="@drawable/music_background">
+    tools:context=".PlayerActivity">
 
 
     <Button
@@ -53,13 +53,13 @@
         android:id="@+id/music_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Music Name"
-        android:scrollHorizontally="true"
-        android:textSize="18sp"
-        android:marqueeRepeatLimit="marquee_forever"
         android:ellipsize="marquee"
         android:gravity="center_horizontal"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:text="Music Name"
         android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,16 +70,16 @@
         android:id="@+id/author_name"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Author Name"
-        android:marqueeRepeatLimit="marquee_forever"
         android:ellipsize="marquee"
+        android:gravity="center_horizontal"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:text="Author Name"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/music_name"
-        app:layout_constraintVertical_bias="0.042"
-        android:gravity="center_horizontal" />
+        app:layout_constraintVertical_bias="0.042" />
 
     <SeekBar
         android:id="@+id/seekBar"

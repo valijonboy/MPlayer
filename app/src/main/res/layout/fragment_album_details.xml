@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="pin"
-                app:srcCompat="@drawable/ic_music" />
+                app:srcCompat="@drawable/icon_music" />
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -45,59 +45,57 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/albart_img"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:background="#22000000"
+                    app:srcCompat="@drawable/icon_music" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/alb_art_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text="Artist Name"
+                        android:textSize="18sp" />
 
-                        <ImageView
-                            android:id="@+id/albart_img"
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
-                            app:srcCompat="@drawable/ic_music"
-                            android:background="#22000000"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Artist Name"
-                                android:textSize="18sp"
-                                android:id="@+id/alb_art_name"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Artist Name"
-                                android:textSize="18sp"
-                                android:id="@+id/albumDetails"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_album_music"
+                    <TextView
+                        android:id="@+id/albumDetails"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
+                        android:layout_height="wrap_content"
+                        android:text="Artist Name"
+                        android:textSize="18sp" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_album_music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/floating_button"
         app:layout_anchor="@id/collapsinglayout"
-        app:layout_anchorGravity="bottom|end|right"/>
+        app:layout_anchorGravity="bottom|end|right" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

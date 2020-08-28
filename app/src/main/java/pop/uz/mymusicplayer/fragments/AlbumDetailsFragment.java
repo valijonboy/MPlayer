@@ -83,7 +83,7 @@ public class AlbumDetailsFragment extends Fragment {
     }
 
     private void setUpAlbumList() {
-        musicList  = AlbumMusicLoader.getAllAlbumMusics(getActivity(), album_id);
+        musicList = AlbumMusicLoader.getAllAlbumMusics(getActivity(), album_id);
         albumMusicAdapter = new AlbumMusicAdapter(getActivity(), musicList);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(albumMusicAdapter);
@@ -94,11 +94,11 @@ public class AlbumDetailsFragment extends Fragment {
         albArtistName.setText(album.albumName);
         albumDetails.setText(album.artistName);
         ImageLoader.getInstance().displayImage(getImage(album.id).toString(), imageView,
-                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.ic_music)
+                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.icon_music)
                         .resetViewBeforeLoading(true).build());
 
         ImageLoader.getInstance().displayImage(getImage(album.id).toString(), albArtImage,
-                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.ic_music)
+                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnLoading(R.drawable.icon_music)
                         .resetViewBeforeLoading(true).build());
     }
 }
