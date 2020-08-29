@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
     }
